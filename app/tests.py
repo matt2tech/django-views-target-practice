@@ -82,3 +82,19 @@ class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
     def test_one_times_one_times_one(self):
         response = self.client.get(path=reverse('multthree'), data={'num1': '1', 'num2': '1', 'num3': '1'})
         self.assertEqual(response.context['answer'], 1)
+
+    def test_negative_one_times_two_times_three(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '-1', 'num2': '2', 'num3': '3'})
+        self.assertEqual(response.context['answer'], -6)
+    
+    def test_negative_two_times_negative_four_times_one(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '-2', 'num2': '-4', 'num3': '1'})
+        self.assertEqual(response.context['answer'], 8)
+
+    def test_negative_one_times_zero_times_one(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '-1', 'num2': '0', 'num3': '1'})
+        self.assertEqual(response.context['answer'], 0)
+    
+    def test_negative_one_times_negative_one_times_negative_one(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '-1', 'num2': '-1', 'num3': '-1'})
+        self.assertEqual(response.context['answer'], -1)
