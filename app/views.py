@@ -4,44 +4,32 @@ from django.views import View
 
 class Add(View):
     def get(self, request):
-        num1 = request.GET.get('num1')
-        num2 = request.GET.get('num2')
-
-        if num1 is not None and num2 is not None:
-            try:
-                num1 = float(num1)
-                num2 = float(num2)
-            except ValueError:
-                return render(request, 'app/add.html')
-            answer = num1 + num2
-            return render(request, 'app/add.html', {'answer': answer})
-        else:
+        try:
+            num1 = float(request.GET.get('num1'))
+            num2 = float(request.GET.get('num2'))
+        except ValueError:
             return render(request, 'app/add.html')
+        else:
+            return render(request, 'app/add.html', {'answer': (num1 + num2)})
+
 
 class Double(View):
     def get(self, request):
-        num = request.GET.get('num')
-
-        if num is not None:
-            try:
-                answer = float(num) * 2
-            except ValueError:
-                return render(request, 'app/double.html')
-            return render(request, 'app/double.html', {'answer': answer})
-        else:
+        try:
+            num = float(request.GET.get('num'))
+        except ValueError:
             return render(request, 'app/double.html')
+        else:
+            return render(request, 'app/double.html', {'answer': (num * 2)})
+
 
 class Mult_three(View):
     def get(self, request):
-        num1 = request.GET.get('num1')
-        num2 = request.GET.get('num2')
-        num3 = request.GET.get('num3')
-
-        if num1 is not None and num2 is not None and num3 is not None:
-            try:
-                answer = float(num1) * float(num2) * float(num3)
-            except ValueError:
-                return render(request, 'app/multthree.html')
-            return render(request, 'app/multthree.html', {'answer': answer})
-        else:
+        try:
+            num1 = float(request.GET.get('num1'))
+            num2 = float(request.GET.get('num2'))
+            num3 = float(request.GET.get('num3'))
+        except ValueError:
             return render(request, 'app/multthree.html')
+        else:
+            return render(request, 'app/multthree.html', {'answer': (num1 * num2 * num3)})
