@@ -12,7 +12,6 @@ class Add(View):
                 num1 = float(num1)
                 num2 = float(num2)
             except ValueError:
-                print('ooops')
                 return render(request, 'app/add.html')
             answer = num1 + num2
             return render(request, 'app/add.html', {'answer': answer})
@@ -24,7 +23,10 @@ class Double(View):
         num = request.GET.get('num')
 
         if num is not None:
-            answer = float(num) * 2
+            try:
+                answer = float(num) * 2
+            except ValueError:
+                return render(request, 'app/double.html')
             return render(request, 'app/double.html', {'answer': answer})
         else:
             return render(request, 'app/double.html')
