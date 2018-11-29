@@ -1,0 +1,27 @@
+{% extends 'app/base.html' %}
+{% block body %}
+
+<form action="{% url 'both' %}" method="GET" class="col-3">
+    <div class="form-group">
+        <label>
+            <h3>Bool 1</h3>
+            True<input type="radio" name="bool1" class="form-control" value='True'>
+            False<input type='radio' name='bool1' class='form-control' value='False'>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            <h3>Bool 2</h3>
+            True<input type="radio" name="bool2" class="form-control" value='True'>
+            False<input type='radio' name='bool2' class='form-control' value='False'>
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Check</button>
+    </div>
+    {% if answer is not None %}
+    <h3>Answer: {{ answer }}</h3>
+    {% endif %}
+</form>
+
+{% endblock body %}
