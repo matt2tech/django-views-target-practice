@@ -67,6 +67,10 @@ class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
         response = self.client.get(path=reverse('double'), data={'num': '-3'})
         self.assertEqual(response.context['answer'], -6)
 
+    def test_negative_three_doubled(self):
+    response = self.client.get(path=reverse('double'), data={'num': '4.4'})
+    self.assertEqual(response.context['answer'], 8.8)
+
 class TestDoublePresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
     def test_given_non_numeric_input1(self):
         response = self.client.get(path=reverse('double'), data={'num': 'a'})
