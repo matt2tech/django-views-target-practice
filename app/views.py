@@ -7,7 +7,7 @@ class Add(View):
         num1 = request.GET.get('num1')
         num2 = request.GET.get('num2')
 
-        if num1 is not None and num1.isalpha() == False and num2 is not None and num2.isalpha() == False:
+        if not num1.isalpha() and not num2.isalpha():
             num1 = float(num1)
             num2 = float(num2)
             answer = num1 + num2
@@ -19,7 +19,7 @@ class Double(View):
     def get(self, request):
         num = request.GET.get('num')
 
-        if num is not None:
+        if not num.isalpha() :
             answer = float(num) * 2
             return render(request, 'app/double.html', {'answer': answer})
         else:
@@ -31,7 +31,7 @@ class Mult_three(View):
         num2 = request.GET.get('num2')
         num3 = request.GET.get('num3')
 
-        if num1 is not None and num2 is not None and num3 is not None:
+        if not num1.isalpha() and not num2.isalpha() and not num3.isalpha():
             answer = float(num1) * float(num2) * float(num3)
             return render(request, 'app/multthree.html', {'answer': answer})
         else:
