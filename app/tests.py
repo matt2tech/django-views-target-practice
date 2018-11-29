@@ -34,8 +34,23 @@ class TestAddPresentsFormIfNotGivenNumbersToAdd(SimpleTestCase):
     present the user with the add.html template
     and not try to compute an answer.'''
 
-    def test_given_non_numeric_input(self):
+    def test_given_non_numeric_input1(self):
         response = self.client.get(path=reverse('add'), data={'num1': 'a', 'num2': 'a'})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('add'), data={'num1': '', 'num2': '1'})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input3(self):
+        response = self.client.get(path=reverse('add'), data={'num1': '1', 'num2': ''})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('add'), data={'num1': '', 'num2': ''})
         self.assertTemplateUsed(response, 'app/add.html')
         self.assertNotIn('answer', response.context)
 
