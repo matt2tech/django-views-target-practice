@@ -5,6 +5,9 @@ from django.urls import reverse
 # Create your tests here.
 
 class TestAddCanHandleSimpleAddition(SimpleTestCase):
+    '''If add is given two numbers it should
+    render add.html with sum of those numbers'''
+
     def test_two_plus_two(self):
         response = self.client.get(path=reverse('add'), data={'num1': '2', 'num2': '2'})
         self.assertEqual(response.context['answer'], 4)
@@ -29,7 +32,7 @@ class TestAddCanHandleSimpleAddition(SimpleTestCase):
         response = self.client.get(path=reverse('add'), data={'num1': '-2', 'num2': '-3'})
         self.assertEqual(response.context['answer'], -5)
 
-class TestAddPresentsFormIfNotGivenNumbersToAdd(SimpleTestCase):
+class TestAddWithoutNumbers(SimpleTestCase):
     '''If add is not given two numbers, it should
     present the user with the add.html template
     and not try to compute an answer.'''
@@ -55,6 +58,10 @@ class TestAddPresentsFormIfNotGivenNumbersToAdd(SimpleTestCase):
         self.assertNotIn('answer', response.context)
 
 class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
+    '''If double is given a number it should
+    render double.html with product of number times
+    two'''
+
     def test_two_doubled(self):
         response = self.client.get(path=reverse('double'), data={'num': '2'})
         self.assertEqual(response.context['answer'], 4)
@@ -71,7 +78,11 @@ class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
         response = self.client.get(path=reverse('double'), data={'num': '4.4'})
         self.assertEqual(response.context['answer'], 8.8)
 
-class TestDoublePresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
+class TestDoubleWithoutNumbers(SimpleTestCase):
+    '''If double is not given a number, it should
+    present the user with the double.html template
+    and not try to compute an answer.'''
+
     def test_given_non_numeric_input1(self):
         response = self.client.get(path=reverse('double'), data={'num': 'a'})
         self.assertTemplateUsed(response, 'app/double.html')
@@ -83,6 +94,9 @@ class TestDoublePresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
         self.assertNotIn('answer', response.context)
 
 class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
+        '''If multthree is given three numbers it should
+    render multthree.html with product of those numbers'''
+
     def test_one_times_one_times_one(self):
         response = self.client.get(path=reverse('multthree'), data={'num1': '1', 'num2': '1', 'num3': '1'})
         self.assertEqual(response.context['answer'], 1)
@@ -103,7 +117,11 @@ class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
         response = self.client.get(path=reverse('multthree'), data={'num1': '-1', 'num2': '-1', 'num3': '-1'})
         self.assertEqual(response.context['answer'], -1)
 
-class TestMultipingPresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
+class TestMultipingWithoutNumbers(SimpleTestCase):
+    '''If multthree is not given three numbers, it should
+    present the user with the multthree.html template
+    and not try to compute an answer.'''
+
     def test_given_non_numeric_input1(self):
         response = self.client.get(path=reverse('multthree'), data={'num1': 'a', 'num2': 'a','num3': 'a'})
         self.assertTemplateUsed(response, 'app/multthree.html')
