@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+{% block body %}
+
+<form action="{% url 'walk-or-drive' %}" method="GET" class="col-3">
+    <div class="form-group">
+        <label>
+            <h3>Miles</h3>
+            <input type="number" name="num" class="form-control" placeholder="Miles">
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            <h3>Good Weather</h3>
+            True<input type="radio" name="num2" class="form-control" value='True'>
+            False<input type="radio" name="num2" class="form-control" value='False'>
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Walk or Drive</button>
+    </div>
+    {% if answer is not None %}
+    <h3>Answer: {{ answer }}</h3>
+    {% endif %}
+</form>
+
+{% endblock body %}
