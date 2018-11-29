@@ -5,8 +5,8 @@ from django.views import View
 class Add(View):
     def get(self, request):
         try:
-            num1 = float(request.GET.get('num1'))
-            num2 = float(request.GET.get('num2'))
+            num1 = float(request.GET.get('num1', ''))
+            num2 = float(request.GET.get('num2', ''))
         except ValueError:
             return render(request, 'app/add.html')
         else:
@@ -16,7 +16,7 @@ class Add(View):
 class Double(View):
     def get(self, request):
         try:
-            num = float(request.GET.get('num'))
+            num = float(request.GET.get('num', ''))
         except ValueError:
             return render(request, 'app/double.html')
         else:
@@ -26,9 +26,9 @@ class Double(View):
 class Mult_three(View):
     def get(self, request):
         try:
-            num1 = float(request.GET.get('num1'))
-            num2 = float(request.GET.get('num2'))
-            num3 = float(request.GET.get('num3'))
+            num1 = float(request.GET.get('num1', ''))
+            num2 = float(request.GET.get('num2', ''))
+            num3 = float(request.GET.get('num3', ''))
         except ValueError:
             return render(request, 'app/multthree.html')
         else:
@@ -37,9 +37,9 @@ class Mult_three(View):
 class Earnings(View):
     def get(self, request):
         try:
-            num1 = float(request.GET.get('num1'))
-            num2 = float(request.GET.get('num2'))
-            num3 = float(request.GET.get('num3'))
+            num1 = float(request.GET.get('num1', ''))
+            num2 = float(request.GET.get('num2', ''))
+            num3 = float(request.GET.get('num3', ''))
         except ValueError:
             return render(request, 'app/earnings.html')
         else:
