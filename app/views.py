@@ -38,7 +38,10 @@ class Mult_three(View):
         num3 = request.GET.get('num3')
 
         if num1 is not None and num2 is not None and num3 is not None:
-            answer = float(num1) * float(num2) * float(num3)
+            try:
+                answer = float(num1) * float(num2) * float(num3)
+            except ValueError:
+                return render(request, 'app/multthree.html')
             return render(request, 'app/multthree.html', {'answer': answer})
         else:
             return render(request, 'app/multthree.html')
