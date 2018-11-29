@@ -67,6 +67,17 @@ class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
         response = self.client.get(path=reverse('double'), data={'num': '-3'})
         self.assertEqual(response.context['answer'], -6)
 
+class TestDoublePresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('double'), data={'num1': 'a'})
+        self.assertTemplateUsed(response, 'app/double.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('add'), data={'num1': ''})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
+
 class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
     def test_one_times_one_times_one(self):
         response = self.client.get(path=reverse('multthree'), data={'num1': '1', 'num2': '1', 'num3': '1'})
