@@ -7,4 +7,5 @@ urlpatterns = [
     path('multthree/', views.Mult_three.as_view(), name='multthree'),
     path('earnings/', views.Earnings.as_view(), name='earnings'),
     path('both/', views.Both.as_view(), name='both'),
+    path('walk-or-drive/', views.WalkOrDrive.as_view(), name='walk-or-drive'),
 ]
