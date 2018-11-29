@@ -7,7 +7,7 @@ class Add(View):
         num1 = request.GET.get('num1')
         num2 = request.GET.get('num2')
 
-        if num1 is not None and num2 is not None:
+        if num1 is not None and num1.isalpha() == False and num2 is not None and num2.isalpha() == False:
             num1 = float(num1)
             num2 = float(num2)
             answer = num1 + num2

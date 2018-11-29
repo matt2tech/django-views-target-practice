@@ -29,6 +29,16 @@ class TestAddCanHandleSimpleAddition(SimpleTestCase):
         response = self.client.get(path=reverse('add'), data={'num1': '-2', 'num2': '-3'})
         self.assertEqual(response.context['answer'], -5)
 
+class TestAddPresentsFormIfNotGivenNumbersToAdd(SimpleTestCase):
+    '''If add is not given two numbers, it should
+    present the user with the add.html template
+    and not try to compute an answer.'''
+
+    def test_given_non_numeric_input(self):
+        response = self.client.get(path=reverse('add'), data={'num1': 'a', 'num2': 'a'})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
+
 class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
     def test_two_doubled(self):
         response = self.client.get(path=reverse('double'), data={'num': '2'})
