@@ -74,7 +74,7 @@ class TestDoublePresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
         self.assertNotIn('answer', response.context)
 
     def test_given_non_numeric_input2(self):
-        response = self.client.get(path=reverse('add'), data={'num': ''})
+        response = self.client.get(path=reverse('double'), data={'num': ''})
         self.assertTemplateUsed(response, 'app/double.html')
         self.assertNotIn('answer', response.context)
 
