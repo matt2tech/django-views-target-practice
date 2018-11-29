@@ -62,21 +62,29 @@ class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
     render double.html with product of number times
     two'''
 
-    def test_two_doubled(self):
-        response = self.client.get(path=reverse('double'), data={'num': '2'})
-        self.assertEqual(response.context['answer'], 4)
+    def test_four_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '4'})
+        self.assertEqual(response.context['answer'], 8)
 
     def test_zero_doubled(self):
         response = self.client.get(path=reverse('double'), data={'num': '0'})
         self.assertEqual(response.context['answer'], 0)
 
-    def test_negative_three_doubled(self):
-        response = self.client.get(path=reverse('double'), data={'num': '-3'})
-        self.assertEqual(response.context['answer'], -6)
+    def test_negative_four_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '-4'})
+        self.assertEqual(response.context['answer'], -8)
 
-    def test_negative_three_doubled(self):
-        response = self.client.get(path=reverse('double'), data={'num': '4.4'})
-        self.assertEqual(response.context['answer'], 8.8)
+    def test_two_dot_two_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '2.2'})
+        self.assertEqual(response.context['answer'], 4.4)
+
+    def test_eight_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '8'})
+        self.assertEqual(response.context['answer'], 16)
+
+    def test_one_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '1'})
+        self.assertEqual(response.context['answer'], 2)
 
 class TestDoubleWithoutNumbers(SimpleTestCase):
     '''If double is not given a number, it should
