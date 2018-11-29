@@ -44,3 +44,13 @@ class Earnings(View):
             return render(request, 'app/earnings.html')
         else:
             return render(request, 'app/earnings.html', {'answer': (num1 * 15 + num2 * 12 + num3 * 9)})
+
+class Both(View):
+    def get(self, request):
+        try:
+            bool1 = request.GET.get('bool1', '') == 'True'
+            bool2 = request.GET.get('bool2', '') == 'True'
+        except ValueError:
+            return render(request, 'app/both.html')
+        else:
+            return render(request, 'app/both.html', {'answer': (bool1 == True and bool2 == True)})
