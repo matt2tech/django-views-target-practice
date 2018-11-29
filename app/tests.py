@@ -94,7 +94,7 @@ class TestDoubleWithoutNumbers(SimpleTestCase):
         self.assertNotIn('answer', response.context)
 
 class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
-        '''If multthree is given three numbers it should
+    '''If multthree is given three numbers it should
     render multthree.html with product of those numbers'''
 
     def test_one_times_one_times_one(self):
