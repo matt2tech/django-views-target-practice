@@ -98,3 +98,19 @@ class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
     def test_negative_one_times_negative_one_times_negative_one(self):
         response = self.client.get(path=reverse('multthree'), data={'num1': '-1', 'num2': '-1', 'num3': '-1'})
         self.assertEqual(response.context['answer'], -1)
+
+class TestMultipingPresentsFormIfNotGivenNumbersToDouble(SimpleTestCase):
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': 'a', 'num2': 'a','num3': 'a'})
+        self.assertTemplateUsed(response, 'app/multthree.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '', 'num2': '1', 'num3': 'a'})
+        self.assertTemplateUsed(response, 'app/multthree.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input3(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '', 'num2': '', 'num3': ''})
+        self.assertTemplateUsed(response, 'app/multthree.html')
+        self.assertNotIn('answer', response.context)
