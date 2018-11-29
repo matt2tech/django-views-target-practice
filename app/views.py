@@ -37,9 +37,9 @@ class Mult_three(View):
 class Earnings(View):
     def get(self, request):
         try:
-            num1 = float(request.GET.get('num1', ''))
-            num2 = float(request.GET.get('num2', ''))
-            num3 = float(request.GET.get('num3', ''))
+            num1 = max(float(request.GET.get('num1', '')), 0)
+            num2 = max(float(request.GET.get('num2', '')), 0)
+            num3 = max(float(request.GET.get('num3', '')), 0)
         except ValueError:
             return render(request, 'app/earnings.html')
         else:
