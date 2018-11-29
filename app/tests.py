@@ -144,3 +144,25 @@ class TestMultipingWithoutNumbers(SimpleTestCase):
         response = self.client.get(path=reverse('multthree'), data={'num1': '', 'num2': '', 'num3': ''})
         self.assertTemplateUsed(response, 'app/multthree.html')
         self.assertNotIn('answer', response.context)
+
+class TestEarningsWorksWithRealNumbers(SimpleTestCase):
+    '''If earnings is given three numbers it should
+    render earnings.html with total of 
+    num1 * 15 + num2 * 12 + num3 * 9'''
+
+    def test_total_1(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': '1', 'num2': '1', 'num3': '1'})
+        self.assertEqual(response.context['answer'], 36)
+
+    def test_total_2(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': '0', 'num2': '0', 'num3': '0'})
+        self.assertEqual(response.context['answer'], 0)
+
+    def test_total_3(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': '5', 'num2': '10', 'num3': '8'})
+        self.assertEqual(response.context['answer'], 267)
+
+    def test_total_4(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': '-1', 'num2': '-4', 'num3': '5'})
+        self.assertEqual(response.context['answer'], 45)
+
