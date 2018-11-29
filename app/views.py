@@ -33,3 +33,14 @@ class Mult_three(View):
             return render(request, 'app/multthree.html')
         else:
             return render(request, 'app/multthree.html', {'answer': (num1 * num2 * num3)})
+
+class Earnings(View):
+    def get(self, request):
+        try:
+            num1 = float(request.GET.get('num1'))
+            num2 = float(request.GET.get('num2'))
+            num3 = float(request.GET.get('num3'))
+        except ValueError:
+            return render(request, 'app/earnings.html')
+        else:
+            return render(request, 'app/earnings.html', {'answer': (num1 * 15 + num2 * 12 + num3 * 9)})
