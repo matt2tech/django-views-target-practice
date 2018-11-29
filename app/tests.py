@@ -28,3 +28,21 @@ class TestAddCanHandleSimpleAddition(SimpleTestCase):
     def test_negative_two_plus_negative_three(self):
         response = self.client.get(path=reverse('add'), data={'num1': '-2', 'num2': '-3'})
         self.assertEqual(response.context['answer'], -5)
+
+class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
+    def test_two_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '2'})
+        self.assertEqual(response.context['answer'], 4)
+
+    def test_zero_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '0'})
+        self.assertEqual(response.context['answer'], 0)
+
+    def test_negative_three_doubled(self):
+        response = self.client.get(path=reverse('double'), data={'num': '-3'})
+        self.assertEqual(response.context['answer'], -6)
+
+class TestMultiplingCanHandleSimpleMultiplication(SimpleTestCase):
+    def test_one_times_one_times_one(self):
+        response = self.client.get(path=reverse('multthree'), data={'num1': '1', 'num2': '1', 'num3': '1'})
+        self.assertEqual(response.context['answer'], 1)
