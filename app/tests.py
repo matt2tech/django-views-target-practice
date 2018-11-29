@@ -235,3 +235,50 @@ class TestBothWithoutBools(SimpleTestCase):
         response = self.client.get(path=reverse('both'), data={'bool1': '0', 'bool2': '0'})
         self.assertEqual(response.context['answer'], False)
 
+class TestWalkOrDriveWithGoodInputs(SimpleTestCase):
+    '''If WalkOrDrive is given a num and
+    a bool it should render walk-or-drive.html
+    with walk or drive'''
+
+    def test_walk_or_drive_1(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': 0.25, 'bool': 'True'})
+        self.assertEqual(response.context['answer'], 'walk')
+
+    def test_walk_or_drive_2(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': 0.26, 'bool': 'True'})
+        self.assertEqual(response.context['answer'], 'drive')
+
+    def test_walk_or_drive_3(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': 0.25, 'bool': 'False'})
+        self.assertEqual(response.context['answer'], 'drive')
+
+    def test_walk_or_drive_1(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': 0.26, 'bool': 'False'})
+        self.assertEqual(response.context['answer'], 'drive')
+
+class TestWalkOrDriveWithBadInputs(SimpleTestCase):
+    '''If WalkOrDrive is not given a num, it should
+    present the user with the walk-or-drive.html template
+    and not try to compute an answer. If WalkOrDrive is
+    not given a bool, it should present the user with
+    the walk-or-drive.html template and render drive'''
+
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': 'a', 'bool': 'False'})
+        self.assertTemplateUsed(response, 'app/walk-or-drive.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': '', 'bool': 'False'})
+        self.assertTemplateUsed(response, 'app/walk-or-drive.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input3(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': '1', 'bool': ''})
+        self.assertEqual(response.context['answer'], 'drive')
+
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': '1', 'bool': 'a'})
+        self.assertEqual(response.context['answer'], 'drive')
+
+
