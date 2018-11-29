@@ -185,3 +185,53 @@ class TestEarningsWithoutNumbers(SimpleTestCase):
         response = self.client.get(path=reverse('earnings'), data={'num1': '', 'num2': '', 'num3': ''})
         self.assertTemplateUsed(response, 'app/earnings.html')
         self.assertNotIn('answer', response.context)
+
+class TestBothWithRealBools(SimpleTestCase):
+    '''If both is given two bools it should
+    render both.html with true or false'''
+
+    def test_true_or_false_1(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': 'True', 'bool2': 'False'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_true_or_false_2(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': 'False', 'bool2': 'False'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_true_or_false_3(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': 'False', 'bool2': 'True'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_true_or_false_4(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': 'True', 'bool2': 'True'})
+        self.assertEqual(response.context['answer'], True)
+
+class TestBothWithoutBools(SimpleTestCase):
+    '''If both is not given two bools, it should
+    present the user with the both.html template
+    and render false.'''
+
+    def test_given_non_bools_1(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': 'a', 'bool2': 'a'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_given_non_bools_2(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': 'a'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_given_non_bools_3(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': '1'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_given_non_bools_4(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': ''})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_given_non_bools_5(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '1', 'bool2': 'a'})
+        self.assertEqual(response.context['answer'], False)
+
+    def test_given_non_bools_6(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '0', 'bool2': '0'})
+        self.assertEqual(response.context['answer'], False)
+
