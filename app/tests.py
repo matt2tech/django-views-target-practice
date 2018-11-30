@@ -162,10 +162,6 @@ class TestEarningsWorksWithRealNumbers(SimpleTestCase):
         response = self.client.get(path=reverse('earnings'), data={'num1': '5', 'num2': '10', 'num3': '8'})
         self.assertEqual(response.context['answer'], 267)
 
-    def test_total_4(self):
-        response = self.client.get(path=reverse('earnings'), data={'num1': '-1', 'num2': '-4', 'num3': '5'})
-        self.assertEqual(response.context['answer'], 45)
-
 class TestEarningsWithoutNumbers(SimpleTestCase):
     '''If earnings is not given three numbers, it should
     present the user with the earnings.html template
@@ -183,6 +179,11 @@ class TestEarningsWithoutNumbers(SimpleTestCase):
 
     def test_given_non_numeric_input3(self):
         response = self.client.get(path=reverse('earnings'), data={'num1': '', 'num2': '', 'num3': ''})
+        self.assertTemplateUsed(response, 'app/earnings.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': '-1', 'num2': '-4', 'num3': '5'})
         self.assertTemplateUsed(response, 'app/earnings.html')
         self.assertNotIn('answer', response.context)
 
