@@ -23,5 +23,9 @@ class Both(Form):
     bool2 = forms.BooleanField(required=False)
 
 class WalkOrDrive(Form):
-    num = forms.FloatField()
+    num = forms.FloatField(min_value=0)
     bool = forms.BooleanField(required=False)
+
+class HowPopulated(Form):
+    num1 = forms.IntegerField(min_value=0)
+    num2 = forms.FloatField(min_value=0)
