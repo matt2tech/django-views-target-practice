@@ -12,3 +12,8 @@ class MultThree(Form):
     num1 = forms.FloatField()
     num2 = forms.FloatField()
     num3 = forms.FloatField()
+
+class Earnings(Form):
+    num1 = forms.IntegerField(min_value=0)
+    num2 = forms.IntegerField(min_value=0)
+    num3 = forms.IntegerField(min_value=0)
