@@ -139,3 +139,21 @@ class HowPopulated(View):
                 return render(request, 'app/how-populated.html', {'answer': 'Densely Populated'})
         else:
             return render(request, 'app/how-populated.html')
+
+class GoldStars(View):
+    def get(self, request):
+        form = forms.GoldStars(data=request.GET)
+        if form.is_valid():
+            num = form.cleaned_data['num']
+            if num < 1000:
+                return render(request, 'app/gold-stars.html', {'answer': '*'})
+            elif num < 5000:
+                return render(request, 'app/gold-stars.html', {'answer': '**'})
+            elif num < 8000:
+                return render(request, 'app/gold-stars.html', {'answer': '***'})
+            elif num < 10000:
+                return render(request, 'app/gold-stars.html', {'answer': '****'})
+            else:
+                return render(request, 'app/gold-stars.html', {'answer': '*****'})
+        else:
+            return render(request, 'app/gold-stars.html')
