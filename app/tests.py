@@ -314,3 +314,63 @@ class TestHowPopulatedWithBadInputs(SimpleTestCase):
         response = self.client.get(path=reverse('how-populated'), data={'num1': '', 'num2': ''})
         self.assertTemplateUsed(response, 'app/how-populated.html')
         self.assertNotIn('answer', response.context)
+
+class TestGoldStarsWithGoodInputs(SimpleTestCase):
+    '''If gold-stars is given a number it should
+    render gold-stars.html with a quantity of stars
+    based on the number'''
+
+    def test_given_good_inputs_1(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '0'})
+        self.assertEqual(response.context['answer'], '*')
+
+    def test_given_good_inputs_2(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '999'})
+        self.assertEqual(response.context['answer'], '*')
+
+    def test_given_good_inputs_3(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '1000'})
+        self.assertEqual(response.context['answer'], '**')
+
+    def test_given_good_inputs_4(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '4999'})
+        self.assertEqual(response.context['answer'], '**')
+
+    def test_given_good_inputs_5(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '5000'})
+        self.assertEqual(response.context['answer'], '***')
+
+    def test_given_good_inputs_6(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '7999'})
+        self.assertEqual(response.context['answer'], '***')
+
+    def test_given_good_inputs_7(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '8000'})
+        self.assertEqual(response.context['answer'], '****')
+
+    def test_given_good_inputs_8(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '9999'})
+        self.assertEqual(response.context['answer'], '****')
+    
+    def test_given_good_inputs_9(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '10000'})
+        self.assertEqual(response.context['answer'], '*****')
+
+    def test_given_good_inputs_10(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '10001'})
+        self.assertEqual(response.context['answer'], '*****')
+
+class TestDoubleWithoutNumbers(SimpleTestCase):
+    '''If double is not given a number, it should
+    present the user with the double.html template
+    and not try to compute an answer.'''
+
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('double'), data={'num': 'a'})
+        self.assertTemplateUsed(response, 'app/double.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('double'), data={'num': ''})
+        self.assertTemplateUsed(response, 'app/double.html')
+        self.assertNotIn('answer', response.context)
