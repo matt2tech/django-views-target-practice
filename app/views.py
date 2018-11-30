@@ -127,3 +127,15 @@ class WalkOrDrive(View):
         #     else:
         #         return render(request, 'app/walk-or-drive.html', {'answer': 'drive'})
 
+class HowPopulated(View):
+    def get(self, request):
+        form = forms.HowPopulated(data=request.GET)
+        if form.is_valid():
+            num1 = form.cleaned_data['num1']
+            num2 = max(form.cleaned_data['num2'], 1)
+            if (num1 / num2) < 100:
+                return render(request, 'app/how-populated.html', {'answer': 'Sparsely Populated'})
+            else:
+                return render(request, 'app/how-populated.html', {'answer': 'Densely Populated'})
+        else:
+            return render(request, 'app/how-populated.html')
