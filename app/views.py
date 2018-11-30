@@ -37,16 +37,24 @@ class Double(View):
         #     return render(request, 'app/double.html', {'answer': (num * 2)})
 
 
-class Mult_three(View):
+class MultThree(View):
     def get(self, request):
-        try:
-            num1 = float(request.GET.get('num1', ''))
-            num2 = float(request.GET.get('num2', ''))
-            num3 = float(request.GET.get('num3', ''))
-        except ValueError:
-            return render(request, 'app/multthree.html')
+        form = forms.MultThree(data=request.GET)
+        if form.is_valid():
+            num1 = form.cleaned_data['num1']
+            num2 = form.cleaned_data['num2']
+            num3 = form.cleaned_data['num3']
+            return render(request, 'app/multthree.html', {'answer': num1 * num2 * num3})
         else:
-            return render(request, 'app/multthree.html', {'answer': (num1 * num2 * num3)})
+            return render(request, 'app/multthree.html')
+        # try:
+        #     num1 = float(request.GET.get('num1', ''))
+        #     num2 = float(request.GET.get('num2', ''))
+        #     num3 = float(request.GET.get('num3', ''))
+        # except ValueError:
+        #     return render(request, 'app/multthree.html')
+        # else:
+        #     return render(request, 'app/multthree.html', {'answer': (num1 * num2 * num3)})
 
 class Earnings(View):
     def get(self, request):
