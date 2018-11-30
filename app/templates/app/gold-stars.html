@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}
+{% block body %}
+
+<form action="{% url 'gold-stars' %}" method="GET" class="col-3">
+    <div class="form-group">
+        <label>
+            Num
+            <input type="number" name="num" class="form-control" placeholder="Num">
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Score</button>
+    </div>
+    {% if answer is not None %}
+    <h3>Stars: {{ answer }}</h3>
+    {% endif %}
+</form>
+
+{% endblock body %}
