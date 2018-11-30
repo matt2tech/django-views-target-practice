@@ -58,14 +58,22 @@ class MultThree(View):
 
 class Earnings(View):
     def get(self, request):
-        try:
-            num1 = max(int(request.GET.get('num1', '')), 0)
-            num2 = max(int(request.GET.get('num2', '')), 0)
-            num3 = max(int(request.GET.get('num3', '')), 0)
-        except ValueError:
-            return render(request, 'app/earnings.html')
+        form = forms.Earnings(data=request.GET)
+        if form.is_valid():
+            num1 = form.cleaned_data['num1']
+            num2 = form.cleaned_data['num2']
+            num3 = form.cleaned_data['num3']
+            return render(request, 'app/earnings.html', {'answer': num1 * 15 + num2 * 12 + num3 * 9})
         else:
-            return render(request, 'app/earnings.html', {'answer': (num1 * 15 + num2 * 12 + num3 * 9)})
+            return render(request, 'app/earnings.html')
+        # try:
+        #     num1 = max(int(request.GET.get('num1', '')), 0)
+        #     num2 = max(int(request.GET.get('num2', '')), 0)
+        #     num3 = max(int(request.GET.get('num3', '')), 0)
+        # except ValueError:
+        #     return render(request, 'app/earnings.html')
+        # else:
+        #     return render(request, 'app/earnings.html', {'answer': (num1 * 15 + num2 * 12 + num3 * 9)})
 
 class Both(View):
     # radio buttons were used. Only True and False radio buttons
