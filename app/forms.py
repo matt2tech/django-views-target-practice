@@ -17,3 +17,7 @@ class Earnings(Form):
     num1 = forms.IntegerField(min_value=0)
     num2 = forms.IntegerField(min_value=0)
     num3 = forms.IntegerField(min_value=0)
+
+class Both(Form):
+    bool1 = forms.BooleanField(required=False)
+    bool2 = forms.BooleanField(required=False)

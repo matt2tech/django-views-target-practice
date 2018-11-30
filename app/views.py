@@ -76,15 +76,25 @@ class Earnings(View):
         #     return render(request, 'app/earnings.html', {'answer': (num1 * 15 + num2 * 12 + num3 * 9)})
 
 class Both(View):
-    # radio buttons were used. Only True and False radio buttons
     def get(self, request):
-        try:
-            bool1 = request.GET.get('bool1', '') == 'True'
-            bool2 = request.GET.get('bool2', '') == 'True'
-        except ValueError:
-            return render(request, 'app/both.html')
+        print('1')
+        form = forms.Both(data=request.GET)
+        print('2')
+        if form.is_valid():
+            print('3')
+            bool1 = form.cleaned_data['bool1']
+            bool2 = form.cleaned_data['bool2']
+            print('bool1:', bool1, 'bool2:', bool2)
+            return render(request, 'app/both.html', {'answer': (bool1 and bool2)})
         else:
-            return render(request, 'app/both.html', {'answer': (bool1 == True and bool2 == True)})
+            return render(request, 'app/both.html')
+        # try:
+        #     bool1 = request.GET.get('bool1', '') == 'True'
+        #     bool2 = request.GET.get('bool2', '') == 'True'
+        # except ValueError:
+        #     return render(request, 'app/both.html')
+        # else:
+        #     return render(request, 'app/both.html', {'answer': (bool1 == True and bool2 == True)})
 
 class WalkOrDrive(View):
     # radio button is used for the bool
