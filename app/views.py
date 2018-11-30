@@ -12,6 +12,8 @@ class Add(View):
             return render(request, 'app/add.html', {'answer': num1 + num2})
         else:
             return render(request, 'app/add.html')
+
+        # ORIGINAL
         # try:
         #     num1 = float(request.GET.get('num1', ''))
         #     num2 = float(request.GET.get('num2', ''))
@@ -29,6 +31,8 @@ class Double(View):
             return render(request, 'app/double.html', {'answer': num * 2})
         else:
             return render(request, 'app/double.html')
+
+        # ORIGINAL
         # try:
         #     num = float(request.GET.get('num', ''))
         # except ValueError:
@@ -47,6 +51,8 @@ class MultThree(View):
             return render(request, 'app/multthree.html', {'answer': num1 * num2 * num3})
         else:
             return render(request, 'app/multthree.html')
+        
+        # ORIGINAL
         # try:
         #     num1 = float(request.GET.get('num1', ''))
         #     num2 = float(request.GET.get('num2', ''))
@@ -66,6 +72,8 @@ class Earnings(View):
             return render(request, 'app/earnings.html', {'answer': num1 * 15 + num2 * 12 + num3 * 9})
         else:
             return render(request, 'app/earnings.html')
+
+        # ORIGINAL
         # try:
         #     num1 = max(int(request.GET.get('num1', '')), 0)
         #     num2 = max(int(request.GET.get('num2', '')), 0)
@@ -77,17 +85,15 @@ class Earnings(View):
 
 class Both(View):
     def get(self, request):
-        print('1')
         form = forms.Both(data=request.GET)
-        print('2')
         if form.is_valid():
-            print('3')
             bool1 = form.cleaned_data['bool1']
             bool2 = form.cleaned_data['bool2']
-            print('bool1:', bool1, 'bool2:', bool2)
             return render(request, 'app/both.html', {'answer': (bool1 and bool2)})
         else:
             return render(request, 'app/both.html')
+
+        # ORIGINAL
         # try:
         #     bool1 = request.GET.get('bool1', '') == 'True'
         #     bool2 = request.GET.get('bool2', '') == 'True'
@@ -97,16 +103,27 @@ class Both(View):
         #     return render(request, 'app/both.html', {'answer': (bool1 == True and bool2 == True)})
 
 class WalkOrDrive(View):
-    # radio button is used for the bool
     def get(self, request):
-        try:
-            num = float(request.GET.get('num', ''))
-            bool = request.GET.get('bool', '') == 'True'
-        except ValueError:
-            return render(request, 'app/walk-or-drive.html')
-        else:
-            if num <= 0.25 and bool is True:
-                return render(request, 'app/walk-or-drive.html', {'answer': 'walk'})
+        form = forms.WalkOrDrive(data=request.GET)
+        if form.is_valid():
+            num = form.cleaned_data['num']
+            bool = form.cleaned_data['bool']
+            if num <= 0.25 and bool:
+                return render(request,'app/walk-or-drive.html', {'answer': 'walk'})
             else:
-                return render(request, 'app/walk-or-drive.html', {'answer': 'drive'})
+                return render(request,'app/walk-or-drive.html', {'answer': 'drive'})
+        else:
+            return render(request, 'app/walk-or-drive.html')
+
+        # ORIGINAL
+        # try:
+        #     num = float(request.GET.get('num', ''))
+        #     bool = request.GET.get('bool', '') == 'True'
+        # except ValueError:
+        #     return render(request, 'app/walk-or-drive.html')
+        # else:
+        #     if num <= 0.25 and bool is True:
+        #         return render(request, 'app/walk-or-drive.html', {'answer': 'walk'})
+        #     else:
+        #         return render(request, 'app/walk-or-drive.html', {'answer': 'drive'})
 

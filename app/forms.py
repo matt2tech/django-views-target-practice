@@ -21,3 +21,7 @@ class Earnings(Form):
 class Both(Form):
     bool1 = forms.BooleanField(required=False)
     bool2 = forms.BooleanField(required=False)
+
+class WalkOrDrive(Form):
+    num = forms.FloatField()
+    bool = forms.BooleanField(required=False)
