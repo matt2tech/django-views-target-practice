@@ -8,4 +8,5 @@ urlpatterns = [
     path('earnings/', views.Earnings.as_view(), name='earnings'),
     path('both/', views.Both.as_view(), name='both'),
     path('walk-or-drive/', views.WalkOrDrive.as_view(), name='walk-or-drive'),
+    path('how-populated/', views.HowPopulated.as_view(), name='how-populated')
 ]
