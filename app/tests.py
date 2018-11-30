@@ -213,11 +213,11 @@ class TestBothWithoutBools(SimpleTestCase):
     and render false.'''
 
     def test_given_non_bools_1(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': False})
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': 'False'})
         self.assertEqual(response.context['answer'], False)
 
     def test_given_non_bools_2(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': True})
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': 'True'})
         self.assertEqual(response.context['answer'], False)
 
     def test_given_non_bools_3(self):
@@ -252,22 +252,65 @@ class TestWalkOrDriveWithBadInputs(SimpleTestCase):
     not given a bool, it should present the user with
     the walk-or-drive.html template and render drive'''
 
-    def test_given_non_numeric_input1(self):
+    def test_given_bad_inputs1(self):
         response = self.client.get(path=reverse('walk-or-drive'), data={'num': 'a', 'bool': 'False'})
         self.assertTemplateUsed(response, 'app/walk-or-drive.html')
         self.assertNotIn('answer', response.context)
 
-    def test_given_non_numeric_input2(self):
+    def test_given_bad_inputs2(self):
         response = self.client.get(path=reverse('walk-or-drive'), data={'num': '', 'bool': 'False'})
         self.assertTemplateUsed(response, 'app/walk-or-drive.html')
         self.assertNotIn('answer', response.context)
 
+    def test_given_bad_inputs3(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': -1, 'bool': 'False'})
+        self.assertTemplateUsed(response, 'app/walk-or-drive.html')
+        self.assertNotIn('answer', response.context)
+
+
+class TestHowPopulatedWithGoodInputs(SimpleTestCase):
+    '''If how-populated is given two numbers it should
+    find the land density of those numbers and render
+    how-populated.html with Sparsely Populated or
+    Densely Populated'''
+
+    def test_given_good_inputs_1(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1': 100, 'num2': 100})
+        self.assertEqual(response.context['answer'], 'Sparsely Populated')
+
+    def test_given_good_inputs_2(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1': 0, 'num2': 100})
+        self.assertEqual(response.context['answer'], 'Sparsely Populated')
+
+    def test_given_good_inputs_3(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1':1000, 'num2': 0})
+        self.assertEqual(response.context['answer'], 'Densely Populated')
+
+    def test_given_good_inputs_4(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1':10000, 'num2': 100})
+        self.assertEqual(response.context['answer'], 'Densely Populated')
+
+class TestHowPopulatedWithBadInputs(SimpleTestCase):
+    '''If how-populated is not given two numbers, it should
+    present the user with the how-populated.html template
+    and not try to compute an answer.'''
+
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1': 'a', 'num2': 'a'})
+        self.assertTemplateUsed(response, 'app/how-populated.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1': '', 'num2': '1'})
+        self.assertTemplateUsed(response, 'app/how-populated.html')
+        self.assertNotIn('answer', response.context)
+
     def test_given_non_numeric_input3(self):
-        response = self.client.get(path=reverse('walk-or-drive'), data={'num': '1', 'bool': ''})
-        self.assertEqual(response.context['answer'], 'drive')
+        response = self.client.get(path=reverse('how-populated'), data={'num1': '1', 'num2': ''})
+        self.assertTemplateUsed(response, 'app/how-populated.html')
+        self.assertNotIn('answer', response.context)
 
     def test_given_non_numeric_input4(self):
-        response = self.client.get(path=reverse('walk-or-drive'), data={'num': '1', 'bool': 'a'})
-        self.assertEqual(response.context['answer'], 'drive')
-
-
+        response = self.client.get(path=reverse('how-populated'), data={'num1': '', 'num2': ''})
+        self.assertTemplateUsed(response, 'app/how-populated.html')
+        self.assertNotIn('answer', response.context)
