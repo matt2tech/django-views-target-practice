@@ -29,3 +29,6 @@ class WalkOrDrive(Form):
 class HowPopulated(Form):
     num1 = forms.IntegerField(min_value=0)
     num2 = forms.FloatField(min_value=0)
+
+class GoldStars(Form):
+    num = forms.IntegerField(min_value=0)
