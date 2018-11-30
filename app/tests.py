@@ -360,17 +360,22 @@ class TestGoldStarsWithGoodInputs(SimpleTestCase):
         response = self.client.get(path=reverse('gold-stars'), data={'num': '10001'})
         self.assertEqual(response.context['answer'], '*****')
 
-class TestDoubleWithoutNumbers(SimpleTestCase):
-    '''If double is not given a number, it should
-    present the user with the double.html template
+class TestGoldStarsWithBadInputs(SimpleTestCase):
+    '''If gold-stars is not given a number, it should
+    present the user with the gold-stars.html template
     and not try to compute an answer.'''
 
     def test_given_non_numeric_input1(self):
-        response = self.client.get(path=reverse('double'), data={'num': 'a'})
-        self.assertTemplateUsed(response, 'app/double.html')
+        response = self.client.get(path=reverse('gold-stars'), data={'num': 'a'})
+        self.assertTemplateUsed(response, 'app/gold-stars.html')
         self.assertNotIn('answer', response.context)
 
     def test_given_non_numeric_input2(self):
-        response = self.client.get(path=reverse('double'), data={'num': ''})
-        self.assertTemplateUsed(response, 'app/double.html')
+        response = self.client.get(path=reverse('gold-stars'), data={'num': ''})
+        self.assertTemplateUsed(response, 'app/gold-stars.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input3(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': '-1'})
+        self.assertTemplateUsed(response, 'app/gold-stars.html')
         self.assertNotIn('answer', response.context)
