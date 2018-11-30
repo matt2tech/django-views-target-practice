@@ -1,16 +1,24 @@
 from django.shortcuts import render
 from django.views import View
+from . import forms
 
 
 class Add(View):
     def get(self, request):
-        try:
-            num1 = float(request.GET.get('num1', ''))
-            num2 = float(request.GET.get('num2', ''))
-        except ValueError:
-            return render(request, 'app/add.html')
+        form = forms.AddForm(data=request.GET)
+        if form.is_valid():
+            num1 = form.cleaned_data['num1']
+            num2 = form.cleaned_data['num2']
+            return render(request, 'app/add.html', {'answer': num1 + num2})
         else:
-            return render(request, 'app/add.html', {'answer': (num1 + num2)})
+            return render(request, 'app/add.html')
+        # try:
+        #     num1 = float(request.GET.get('num1', ''))
+        #     num2 = float(request.GET.get('num2', ''))
+        # except ValueError:
+        #     return render(request, 'app/add.html')
+        # else:
+        #     return render(request, 'app/add.html', {'answer': (num1 + num2)})
 
 
 class Double(View):
