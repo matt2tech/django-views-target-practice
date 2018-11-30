@@ -23,12 +23,18 @@ class Add(View):
 
 class Double(View):
     def get(self, request):
-        try:
-            num = float(request.GET.get('num', ''))
-        except ValueError:
-            return render(request, 'app/double.html')
+        form = forms.DoubleForm(data=request.GET)
+        if form.is_valid():
+            num = form.cleaned_data['num']
+            return render(request, 'app/double.html', {'answer': num * 2})
         else:
-            return render(request, 'app/double.html', {'answer': (num * 2)})
+            return render(request, 'app/double.html')
+        # try:
+        #     num = float(request.GET.get('num', ''))
+        # except ValueError:
+        #     return render(request, 'app/double.html')
+        # else:
+        #     return render(request, 'app/double.html', {'answer': (num * 2)})
 
 
 class Mult_three(View):
