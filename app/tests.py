@@ -213,27 +213,15 @@ class TestBothWithoutBools(SimpleTestCase):
     and render false.'''
 
     def test_given_non_bools_1(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': 'a', 'bool2': 'a'})
-        self.assertEqual(response.context['answer'], False)
-
-    def test_given_non_bools_2(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': 'a'})
-        self.assertEqual(response.context['answer'], False)
-
-    def test_given_non_bools_3(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': '1'})
-        self.assertEqual(response.context['answer'], False)
-
-    def test_given_non_bools_4(self):
         response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': ''})
         self.assertEqual(response.context['answer'], False)
 
-    def test_given_non_bools_5(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '1', 'bool2': 'a'})
+    def test_given_non_bools_2(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': True})
         self.assertEqual(response.context['answer'], False)
 
-    def test_given_non_bools_6(self):
-        response = self.client.get(path=reverse('both'), data={'bool1': '0', 'bool2': '0'})
+    def test_given_non_bools_2(self):
+        response = self.client.get(path=reverse('both'), data={'bool1': '', 'bool2': False})
         self.assertEqual(response.context['answer'], False)
 
 class TestWalkOrDriveWithGoodInputs(SimpleTestCase):
