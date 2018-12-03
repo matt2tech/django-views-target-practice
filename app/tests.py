@@ -56,6 +56,11 @@ class TestAddWithoutNumbers(SimpleTestCase):
         response = self.client.get(path=reverse('add'), data={'num1': '', 'num2': ''})
         self.assertTemplateUsed(response, 'app/add.html')
         self.assertNotIn('answer', response.context)
+    
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('add'), data={'num1': None, 'num2': None})
+        self.assertTemplateUsed(response, 'app/add.html')
+        self.assertNotIn('answer', response.context)
 
 class TestDoubleCanHandleSimpleDoubling(SimpleTestCase):
     '''If double is given a number it should
@@ -98,6 +103,11 @@ class TestDoubleWithoutNumbers(SimpleTestCase):
 
     def test_given_non_numeric_input2(self):
         response = self.client.get(path=reverse('double'), data={'num': ''})
+        self.assertTemplateUsed(response, 'app/double.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('double'), data={'num1': None})
         self.assertTemplateUsed(response, 'app/double.html')
         self.assertNotIn('answer', response.context)
 
@@ -145,6 +155,11 @@ class TestMultipingWithoutNumbers(SimpleTestCase):
         self.assertTemplateUsed(response, 'app/multthree.html')
         self.assertNotIn('answer', response.context)
 
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('multthree'), data={'num': None, 'num2': None, 'num3': None})
+        self.assertTemplateUsed(response, 'app/multthree.html')
+        self.assertNotIn('answer', response.context)
+
 class TestEarningsWorksWithRealNumbers(SimpleTestCase):
     '''If earnings is given three numbers it should
     render earnings.html with total of 
@@ -184,6 +199,11 @@ class TestEarningsWithoutNumbers(SimpleTestCase):
 
     def test_given_non_numeric_input4(self):
         response = self.client.get(path=reverse('earnings'), data={'num1': '-1', 'num2': '-4', 'num3': '5'})
+        self.assertTemplateUsed(response, 'app/earnings.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input5(self):
+        response = self.client.get(path=reverse('earnings'), data={'num1': None, 'num2': None, 'num3': None})
         self.assertTemplateUsed(response, 'app/earnings.html')
         self.assertNotIn('answer', response.context)
 
@@ -267,6 +287,11 @@ class TestWalkOrDriveWithBadInputs(SimpleTestCase):
         self.assertTemplateUsed(response, 'app/walk-or-drive.html')
         self.assertNotIn('answer', response.context)
 
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('walk-or-drive'), data={'num': None, 'bool': 'False'})
+        self.assertTemplateUsed(response, 'app/walk-or-drive.html')
+        self.assertNotIn('answer', response.context)
+
 
 class TestHowPopulatedWithGoodInputs(SimpleTestCase):
     '''If how-populated is given two numbers it should
@@ -312,6 +337,11 @@ class TestHowPopulatedWithBadInputs(SimpleTestCase):
 
     def test_given_non_numeric_input4(self):
         response = self.client.get(path=reverse('how-populated'), data={'num1': '', 'num2': ''})
+        self.assertTemplateUsed(response, 'app/how-populated.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input5(self):
+        response = self.client.get(path=reverse('how-populated'), data={'num1': None, 'num2': None})
         self.assertTemplateUsed(response, 'app/how-populated.html')
         self.assertNotIn('answer', response.context)
 
@@ -379,3 +409,57 @@ class TestGoldStarsWithBadInputs(SimpleTestCase):
         response = self.client.get(path=reverse('gold-stars'), data={'num': '-1'})
         self.assertTemplateUsed(response, 'app/gold-stars.html')
         self.assertNotIn('answer', response.context)
+    
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('gold-stars'), data={'num': None})
+        self.assertTemplateUsed(response, 'app/gold-stars.html')
+        self.assertNotIn('answer', response.context)
+
+class TestHowManyPointsWithGoodInputs(SimpleTestCase):
+    '''If how-many-points is given a number
+    associated with a scoring action it should
+    render how-many-points.html with a score
+    based on the number'''
+
+    def test_given_good_inputs_1(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': '1'})
+        self.assertEqual(response.context['answer'], 1)
+
+    def test_given_good_inputs_2(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': '2'})
+        self.assertEqual(response.context['answer'], 2)
+    
+    def test_given_good_inputs_3(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': '3'})
+        self.assertEqual(response.context['answer'], 3)
+
+    def test_given_good_inputs_4(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': '6'})
+        self.assertEqual(response.context['answer'], 6)
+
+class TestHowManyPointsWithBadInputs(SimpleTestCase):
+    '''If how-many-points is not given a number
+    over 0, it should present the user with
+    the how-many-points.html template
+    and not try to compute an answer.'''
+
+    def test_given_non_numeric_input1(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': 'a'})
+        self.assertTemplateUsed(response, 'app/how-many-points.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input2(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': ''})
+        self.assertTemplateUsed(response, 'app/how-many-points.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input3(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': '-1'})
+        self.assertTemplateUsed(response, 'app/how-many-points.html')
+        self.assertNotIn('answer', response.context)
+
+    def test_given_non_numeric_input4(self):
+        response = self.client.get(path=reverse('how-many-points'), data={'num': None})
+        self.assertTemplateUsed(response, 'app/how-many-points.html')
+        self.assertNotIn('answer', response.context)
+
