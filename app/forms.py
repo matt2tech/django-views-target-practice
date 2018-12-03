@@ -32,3 +32,6 @@ class HowPopulated(Form):
 
 class GoldStars(Form):
     num = forms.IntegerField(min_value=0)
+
+class HowManyPoints(Form):
+    num = forms.IntegerField(min_value=0)
