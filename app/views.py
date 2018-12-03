@@ -157,3 +157,12 @@ class GoldStars(View):
                 return render(request, 'app/gold-stars.html', {'answer': '*****'})
         else:
             return render(request, 'app/gold-stars.html')
+
+class HowManyPoints(View):
+    def get(self, request):
+        form = forms.HowManyPoints(data=request.GET)
+        if form.is_valid():
+            num = form.cleaned_data['num']
+            return render(request, 'app/how-many-points.html', {'answer': num})
+        else:
+            return render(request, 'app/how-many-points.html')
