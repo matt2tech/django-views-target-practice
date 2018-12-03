@@ -1,18 +1,9 @@
 {% extends 'app/base.html' %}
 {% block body %}
 
-<form action="{% url 'both' %}" method="GET" class="col-3">
+<form action="{% url 'both' %}" method="POST" class="col-3">
     <div class="form-group">
-        <label>
-            <h3>Bool 1</h3>
-            True<input type="checkbox" name="bool1" class="form-control">
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            <h3>Bool 2</h3>
-            True<input type="checkbox" name="bool2" class="form-control">
-        </label>
+        {% csrf_token %} {{ form }}
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Check</button>

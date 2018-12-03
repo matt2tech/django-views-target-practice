@@ -1,18 +1,9 @@
 {% extends 'app/base.html' %}
 {% block body %}
 
-<form action="{% url 'how-populated' %}" method="GET" class="col-3">
+<form action="{% url 'how-populated' %}" method="POST" class="col-3">
     <div class="form-group">
-        <label>
-            Population
-            <input type="number" name="num1" class="form-control" placeholder="Num 1">
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            Land Area
-            <input type="number" name="num2" class="form-control" placeholder="Num 2">
-        </label>
+        {% csrf_token %} {{ form }}
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Land Density</button>
